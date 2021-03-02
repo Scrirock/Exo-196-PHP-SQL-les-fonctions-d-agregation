@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Fonction d'agrégation</title>
 </head>
 <body>
     <?php
@@ -25,7 +25,38 @@
 
     // TODO Votre code ici, commencez par require un des objet de connexion que nous avons fait ensemble.
 
+    require "./Classes/DB.php";
+    $conn = DB::getInstance();
 
+    $infoUser = $conn->prepare("SELECT min(age) as minimum FROM exo_196.user");
+    $infoUser->execute();
+    $min = $infoUser->fetch();
+    echo "l'age min est de ".$min["minimum"]." ans<br>";
+
+    $infoUser = $conn->prepare("SELECT max(age) as maximum FROM exo_196.user");
+    $infoUser->execute();
+    $max = $infoUser->fetch();
+    echo "l'age max est de ".$max["maximum"]." ans<br>";
+
+    $infoUser = $conn->prepare("SELECT count(*) as nbrUser FROM exo_196.user");
+    $infoUser->execute();
+    $nbr = $infoUser->fetch();
+    echo "il y a ".$nbr["nbrUser"]." utilisateurs<br>";
+
+    $infoUser = $conn->prepare("SELECT count(*) as nbrUser FROM exo_196.user WHERE numero > 5");
+    $infoUser->execute();
+    $nbr = $infoUser->fetch();
+    echo "il y a ".$nbr["nbrUser"]." utilisateurs ayant un numero de rue > 5<br>";
+
+    $infoUser = $conn->prepare("SELECT AVG(age) as avgAge FROM exo_196.user");
+    $infoUser->execute();
+    $avgAge = $infoUser->fetch();
+    echo "la moyenne d'age est de ".$avgAge["avgAge"]." ans<br>";
+
+    $infoUser = $conn->prepare("SELECT sum(numero) as sommeNbr FROM exo_196.user");
+    $infoUser->execute();
+    $sommeNbr = $infoUser->fetch();
+    echo "la somme des num de maison est de ".$sommeNbr["sommeNbr"]."<br>";
     ?>
 </body>
 </html>
